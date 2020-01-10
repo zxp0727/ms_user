@@ -11,5 +11,24 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  application:
+    #指定注册到consul上的服务名称，注意：使用分隔符，一定要使用“-” 不能使用“_”
+    #如果服务组件是consul，使用“_”会自动替换成“-”
+    #如果服务组件不是consul，就会报错，引起服务注册不成功的问题
+    #原因是：Ribbon会将服务名称[ms-user]作为虚拟主机名，而对于主机名来说“_”是不合法的
+    name: ms-user
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        # 这里用* 代表暴露所有端点只是为了观察效果，实际中按照需进行端点暴露
+        include: "*"
+  endpoint:
+    health:
+      # 详细信息显示给所有用户。
+      show-details: always
